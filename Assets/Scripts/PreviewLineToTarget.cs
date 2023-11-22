@@ -14,15 +14,47 @@ public class PreviewLineToTarget : MonoBehaviour
     private float lineLength = 0f;
     private int currentLineIndex = 0;
     private List<LineRenderer> lineCollection = new List<LineRenderer>();
+    private PlayerControls playerControls;
+    private PlayerController playerController;
+    private bool lineStatusCleared;
+
+    private void Awake()
+    {
+        playerControls = new PlayerControls();
+    }
+
+    private void Start()
+    {
+        playerController = transform.parent.GetComponent<PlayerController>();
+    }
+
+    private void OnEnable()
+    {
+        playerControls?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControls?.Disable();
+    }
+
 
     private void FixedUpdate()
     {
-        UpdateLines();
+        if (playerController.CanDash)
+        {
+            UpdateLines();
+        }
+        else
+        {
+            ResetLineStatus();
+        }
     }
 
     private void UpdateLines()
     {
-        Vector3 targetPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        lineStatusCleared = false;
+        Vector3 targetPoint = Camera.main.ScreenToWorldPoint(playerControls.TargetPosition.Pos.ReadValue<Vector2>());
         targetPoint.z = 0;
         float distance = Vector3.Distance(transform.position, targetPoint);
 
@@ -120,6 +152,10 @@ public class PreviewLineToTarget : MonoBehaviour
 
     private void ResetLineStatus()
     {
+        if (lineStatusCleared)
+            return;
+
+        lineStatusCleared = true;
         lineLength = 0f;
         currentLineIndex = 0;
         currentLineRenderer = null;

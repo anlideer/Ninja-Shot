@@ -1,14 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float dashSpeed = 10f;
+    [Header("Dash Ability")]
     [SerializeField] private float dashCD = 1f;
+    [SerializeField] private float dashDistance = 4f;
+    [SerializeField] private bool enableSecondDash = true;
+    [SerializeField] private float secondDashCD = 1f;
+    [SerializeField] private float secondDashTotalDistance = 8f;
+
+    [Header("Dash")]
+    [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private TrailRenderer trailRenderer;
 
+    public UnityEvent DashCompletedEvent;
+    public UnityEvent DashStartingEvent;
+
     public bool CanDash { get; private set; }
+
+    public Vector3 TargetPosition { get; private set; }
+
     public bool IsDashing
     {
         get { return isDashing; }
@@ -19,10 +33,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public float FirstDashCD { get { return dashCD; } }
+
+    public float SecondDashCD { get { return secondDashCD; } }
+
+
     private const float rotationAngleOffset = 90f;
     private PlayerControls playerControls;
     private bool isDashing;
-    
+
 
     #region Unity lifecycle
 
@@ -40,6 +59,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        UpdateTargetPosition();
+    }
+
+    private void FixedUpdate()
+    {
+        UpdateTargetPosition();
         if (!IsDashing)
         {
             LookAtTarget();
@@ -58,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Look at mouse
     private void LookAtTarget()
     {
         Vector3 targetPosition = Camera.main.ScreenToWorldPoint(playerControls.TargetPosition.Pos.ReadValue<Vector2>());
@@ -67,6 +93,28 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
+    private void UpdateTargetPosition()
+    {
+        var mousePos = Camera.main.ScreenToWorldPoint(playerControls.TargetPosition.Pos.ReadValue<Vector2>());
+        mousePos.z = 0;
+        float realDis = Vector3.Distance(transform.position, mousePos);
+        if (realDis <= dashDistance)
+        {
+            TargetPosition = mousePos;
+        }
+        else
+        {
+            Vector3 direction = mousePos - transform.position;
+            direction.z = 0;
+            direction.Normalize();
+            var targetPos = direction * dashDistance + transform.position;
+            targetPos.z = 0;
+            TargetPosition = targetPos;
+        }
+    }
+    #endregion
+
+    #region Dash
     private void Dash()
     {
         if (!CanDash)
@@ -74,10 +122,11 @@ public class PlayerController : MonoBehaviour
 
         CanDash = false;
         IsDashing = true;
-        // TODO: targetPosition should not be mouse pos, should in a range
-        Vector3 targetPosition = Camera.main.ScreenToWorldPoint(playerControls.TargetPosition.Pos.ReadValue<Vector2>());
-        targetPosition.z = 0;
-        StartCoroutine(DashRoutine(targetPosition));
+        DashStartingEvent?.Invoke();
+
+        StopAllCoroutines();
+
+        StartCoroutine(DashRoutine(TargetPosition));
     }
 
     private IEnumerator DashRoutine(Vector3 targetPos)
@@ -92,10 +141,12 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.position = targetPos;
-        StartCoroutine(DashCDRoutine());
-
         yield return new WaitForSeconds(0.2f);
         IsDashing = false;
+
+        StartCoroutine(DashCDRoutine());
+        
+        DashCompletedEvent?.Invoke();
     }
 
     private IEnumerator DashCDRoutine()
@@ -103,4 +154,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashCD);
         CanDash = true;
     }
+    #endregion
+
 }

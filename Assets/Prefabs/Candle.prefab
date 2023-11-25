@@ -440,7 +440,7 @@ Transform:
   - {fileID: 7438830569742889594}
   - {fileID: 622146206863268449}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &892839364753540347
 SpriteRenderer:
@@ -528,7 +528,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.9
+  m_Radius: 2.2
 --- !u!114 &7687306975934066521
 MonoBehaviour:
   m_ObjectHideFlags: 0

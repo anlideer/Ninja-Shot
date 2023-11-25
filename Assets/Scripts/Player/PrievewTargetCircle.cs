@@ -13,43 +13,24 @@ public class PrievewTargetCircle : MonoBehaviour
     [SerializeField] private float radiusDeductionSpeed = 0.05f;
 
     private LineRenderer circleRenderer;
-    private PlayerControls playerControls;
     private PlayerController playerController;
     private Vector3 targetPosition;
     private float currentRadius;
 
-    private void Awake()
-    {
-        playerControls = new PlayerControls();
-    }
-
     private void Start()
     {
         playerController = transform.parent.GetComponent<PlayerController>();
-        targetPosition = Camera.main.ScreenToWorldPoint(playerControls.TargetPosition.Pos.ReadValue<Vector2>());
-        targetPosition.z = 0;
-    }
-
-    private void OnEnable()
-    {
-        playerControls?.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerControls?.Disable();
+        targetPosition = playerController.TargetPosition;
     }
 
     private void FixedUpdate()
     {
-        targetPosition = Camera.main.ScreenToWorldPoint(playerControls.TargetPosition.Pos.ReadValue<Vector2>());
-        targetPosition.z = 0;
+        targetPosition = playerController.TargetPosition;
 
         if (playerController.CanDash)
         {
             if (circleRenderer == null)
             {
-                // TODO: target position should be calculated, not directly mouse pos
                 circleRenderer = Instantiate(simpleCircle, targetPosition, Quaternion.identity).
                     GetComponent<LineRenderer>();
                 currentRadius = maxRadius;
@@ -77,7 +58,7 @@ public class PrievewTargetCircle : MonoBehaviour
         DrawCircle(targetPosition, circleSteps, currentRadius);
     }
 
-    void DrawCircle(Vector3 centerPoint, int steps, float radius)
+    private void DrawCircle(Vector3 centerPoint, int steps, float radius)
     {
         if (circleRenderer == null) { return; }
         

@@ -641,6 +641,52 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 1
+--- !u!1 &1248636736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1248636737}
+  - component: {fileID: 1248636738}
+  m_Layer: 0
+  m_Name: Dash Refill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1248636737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248636736}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1535162787}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1248636738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248636736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b491d8b9a6a3943b809748e41a759a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refillRadius: 0.6
+  firstRefillCirclePrefab: {fileID: 4182036774851044932, guid: 2ee5da1fbd45b6842886036998db10c9, type: 3}
 --- !u!1001 &1315216400
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -728,7 +774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1487061541}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.16, z: 0}
+  m_LocalPosition: {x: 0, y: 2.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -768,7 +814,7 @@ MonoBehaviour:
   circleSteps: 100
   maxRadius: 0.5
   minRadius: 0.15
-  radiusDeductionSpeed: 0.3
+  radiusDeductionSpeed: 0.4
 --- !u!1 &1535162785
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,6 +901,7 @@ Transform:
   m_Children:
   - {fileID: 1487061542}
   - {fileID: 998827934}
+  - {fileID: 1248636737}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -870,9 +917,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aad03009cab2b9d40b482312869d2c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSpeed: 5
   dashCD: 1
+  dashDistance: 4
+  enableSecondDash: 1
+  secondDashCD: 1
+  secondDashTotalDistance: 8
+  dashSpeed: 5
   trailRenderer: {fileID: 998827935}
+  DashCompletedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  DashStartingEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!60 &1535162789
 PolygonCollider2D:
   m_ObjectHideFlags: 0

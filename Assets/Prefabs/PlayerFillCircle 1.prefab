@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3627857396384183470}
   - component: {fileID: 7818096999477236065}
   m_Layer: 0
-  m_Name: PlayerFillCircle
+  m_Name: PlayerFillCircle 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &7818096999477236065
 LineRenderer:
@@ -85,7 +85,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.049026616
+        value: 0.07264866
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -97,9 +97,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
-      key1: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
-      key2: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
+      key0: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
+      key1: {r: 0.9254902, g: 0.9254902, b: 0.9254902, a: 1}
+      key2: {r: 0.9254902, g: 0.9254902, b: 0.9254902, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}

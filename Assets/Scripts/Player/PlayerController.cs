@@ -37,10 +37,12 @@ public class PlayerController : MonoBehaviour
 
     public float SecondDashCD { get { return secondDashCD; } }
 
+    public bool IsSecondDashEnabled { get { return enableSecondDash; } }
 
     private const float rotationAngleOffset = 90f;
     private PlayerControls playerControls;
     private bool isDashing;
+    private bool isSecondDashReady;
 
 
     #region Unity lifecycle
@@ -54,6 +56,7 @@ public class PlayerController : MonoBehaviour
     {
         playerControls.Movement.Dash.performed += _ => Dash();
         CanDash = true;
+        isSecondDashReady = true;
         IsDashing = false;
     }
 
@@ -98,7 +101,8 @@ public class PlayerController : MonoBehaviour
         var mousePos = Camera.main.ScreenToWorldPoint(playerControls.TargetPosition.Pos.ReadValue<Vector2>());
         mousePos.z = 0;
         float realDis = Vector3.Distance(transform.position, mousePos);
-        if (realDis <= dashDistance)
+        if (realDis <= dashDistance || 
+            (isSecondDashReady && realDis <= secondDashTotalDistance))
         {
             TargetPosition = mousePos;
         }
@@ -107,7 +111,8 @@ public class PlayerController : MonoBehaviour
             Vector3 direction = mousePos - transform.position;
             direction.z = 0;
             direction.Normalize();
-            var targetPos = direction * dashDistance + transform.position;
+            float maxDis = isSecondDashReady? secondDashTotalDistance : dashDistance;
+            var targetPos = direction * maxDis + transform.position;
             targetPos.z = 0;
             TargetPosition = targetPos;
         }
@@ -121,6 +126,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         CanDash = false;
+        isSecondDashReady = false;
         IsDashing = true;
         DashStartingEvent?.Invoke();
 
@@ -153,6 +159,8 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(dashCD);
         CanDash = true;
+        yield return new WaitForSeconds(secondDashCD);
+        isSecondDashReady = true;
     }
     #endregion
 

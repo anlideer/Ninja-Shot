@@ -6,11 +6,13 @@ public class DashRefillDisplay : MonoBehaviour
 {
     [SerializeField] private float refillRadius = 0.5f;
     [SerializeField] private GameObject firstRefillCirclePrefab;
+    [SerializeField] private GameObject secondRefillCirclePrefab;
 
     private PlayerController playerController;
     private float firstDashCD;
     private float secondDashCD;
     private LineRenderer firstDashCircle;
+    private LineRenderer secondDashCircle;
 
     private void Start()
     {
@@ -19,6 +21,8 @@ public class DashRefillDisplay : MonoBehaviour
         secondDashCD = playerController.SecondDashCD;
         playerController.DashCompletedEvent.AddListener(OnDashCompleted);
         playerController.DashStartingEvent.AddListener(OnDashStarting);
+
+        InitFullRefill();
     }
 
     private void OnDashCompleted()
@@ -32,13 +36,28 @@ public class DashRefillDisplay : MonoBehaviour
 
         if (firstDashCircle != null)
             Destroy(firstDashCircle.gameObject);
+        if (secondDashCircle != null)
+            Destroy(secondDashCircle.gameObject);
+    }
 
+    private void InitFullRefill()
+    {
+        firstDashCircle = Instantiate(firstRefillCirclePrefab, transform).GetComponent<LineRenderer>();
+        DrawCircle(firstDashCircle, 100, 100, refillRadius);
+        secondDashCircle = Instantiate(secondRefillCirclePrefab, transform).GetComponent<LineRenderer>();
+        DrawCircle(secondDashCircle, 100, 100, refillRadius);
     }
 
     private IEnumerator DashRefillRoutine()
     {
         firstDashCircle = Instantiate(firstRefillCirclePrefab, transform).GetComponent<LineRenderer>();
         yield return StartCoroutine(DrawCircleRoutine(firstDashCircle, firstDashCD, 100, refillRadius));
+
+        if (playerController.IsSecondDashEnabled)
+        {
+            secondDashCircle = Instantiate(secondRefillCirclePrefab, transform).GetComponent<LineRenderer>();
+            yield return StartCoroutine(DrawCircleRoutine(secondDashCircle, secondDashCD, 100, refillRadius));
+        }
     }
 
     private IEnumerator DrawCircleRoutine(LineRenderer circleRenderer, float duration, int targetTotalSteps, float radius)

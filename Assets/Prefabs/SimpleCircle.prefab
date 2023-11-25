@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3627857396384183470}
   - component: {fileID: 7818096999477236065}
   m_Layer: 0
-  m_Name: SimpleLine
+  m_Name: SimpleCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.08052268
+        value: 0.080522686
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -97,9 +97,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
-      key1: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
-      key2: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
+      key0: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+      key1: {r: 0.50980395, g: 0.50980395, b: 0.50980395, a: 1}
+      key2: {r: 0.50980395, g: 0.50980395, b: 0.50980395, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}

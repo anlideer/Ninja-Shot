@@ -18,7 +18,7 @@ public class Candle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlayerController>() != null)
+        if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
             if (isLighting)
             {

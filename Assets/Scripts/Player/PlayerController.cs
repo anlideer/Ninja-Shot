@@ -86,6 +86,21 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Public funcs
+    public void StopPlayerDash()
+    {
+        if (isDashing)
+        {
+            isDashing = false;
+            StopAllCoroutines();
+
+            StartCoroutine(DashCDRoutine());
+            DashCompletedEvent?.Invoke();
+        }
+    }
+
+    #endregion
+
     #region Look at mouse
     private void LookAtTarget()
     {

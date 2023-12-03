@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// A fov class to draw a sector-like fov mesh.
+/// Make sure the scale of attached transform is always 1, including parents' scales.
+/// </summary>
 public class FieldOfView : MonoBehaviour
 {
     [Header("Basic")]
@@ -15,7 +18,7 @@ public class FieldOfView : MonoBehaviour
     [Tooltip("The angle of the view. Will take the transform right as the center line to display this.")]
     private float viewAngle = 30f;
 
-    [SerializeField][Range(0, 360)]
+    [SerializeField][Range(0, 30)]
     [Tooltip("The angle step for one triangle. Decrese the value to get a more good-looking sector/circle, but it affects performance.")]
     private float angleStep = 3f;
 
@@ -32,22 +35,24 @@ public class FieldOfView : MonoBehaviour
     [Tooltip("The radius of the circle around the object.")]
     private float circleRadius = 1f;
 
+    [SerializeField]
+    [Tooltip("Automatically update fov. Turn this off to control the update yourself by calling UpdateFOV.")]
+    private bool autoUpdateFov = true;
+
     private Mesh mesh;
     private PolygonCollider2D fovCollider;
 
-    private void Start()
+    public float ViewRadius
     {
-        mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = mesh;
-        fovCollider = GetComponent<PolygonCollider2D>();
+        get { return viewRadius; }
+        set 
+        {
+            viewRadius = value;
+            UpdateFOV();
+        }
     }
 
-    private void Update()
-    {
-        UpdateFOV();
-    }
-
-    private void UpdateFOV()
+    public void UpdateFOV()
     {
         if (!createWithCircleAround)
         {
@@ -56,6 +61,21 @@ public class FieldOfView : MonoBehaviour
         else
         {
             DrawFOVSectorWithCircle();
+        }
+    }
+
+    private void Start()
+    {
+        mesh = new Mesh();
+        GetComponent<MeshFilter>().mesh = mesh;
+        fovCollider = GetComponent<PolygonCollider2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (autoUpdateFov)
+        {
+            UpdateFOV();
         }
     }
 
@@ -72,12 +92,11 @@ public class FieldOfView : MonoBehaviour
         int triangleCnt = 0;
         vertices[0] = Vector3.zero;
         for (int i = 1; i < rayStepCount + 2; i++)
-        { 
+        {
             RaycastHit2D rayHit = Physics2D.Raycast(
-                transform.position, 
-                transform.TransformDirection(GetVectorForAngle(angle)), 
+                transform.position,
+                transform.TransformDirection(GetVectorForAngle(angle)).normalized, 
                 viewRadius, layerMask);    // mesh is in local space
-            //Debug.DrawRay(transform.position, transform.TransformDirection(GetVectorForAngle(angle)), Color.magenta, 100);
 
             if (rayHit.collider == null)
             {
@@ -87,7 +106,6 @@ public class FieldOfView : MonoBehaviour
             {
                 Vector3 hitPoint = rayHit.point;
                 vertices[i] = transform.InverseTransformPoint(hitPoint);    // mesh is in local space
-                //Debug.DrawLine(transform.position, hitPoint, Color.red, 100);
             }
 
             if (i > 1)
@@ -128,7 +146,7 @@ public class FieldOfView : MonoBehaviour
         {
             RaycastHit2D rayHit = Physics2D.Raycast(
                 transform.position,
-                transform.TransformDirection(GetVectorForAngle(angle)),
+                transform.TransformDirection(GetVectorForAngle(angle)).normalized,
                 viewRadius, layerMask);    // mesh is in local space
 
             if (rayHit.collider == null)
@@ -158,7 +176,7 @@ public class FieldOfView : MonoBehaviour
         {
             RaycastHit2D rayHit = Physics2D.Raycast(
                 transform.position,
-                transform.TransformDirection(GetVectorForAngle(angle)),
+                transform.TransformDirection(GetVectorForAngle(angle).normalized),
                 circleRadius, layerMask);    // mesh is in local space
             
             if (rayHit.collider == null)
@@ -189,7 +207,6 @@ public class FieldOfView : MonoBehaviour
 
         UpdateCollider(vertices);
     }
-
 
     private void UpdateCollider(Vector3[] localVertices)
     {

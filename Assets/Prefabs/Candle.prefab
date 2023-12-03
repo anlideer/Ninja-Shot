@@ -178,7 +178,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6417848279478182938}
   - component: {fileID: 126500051272832766}
-  m_Layer: 0
+  - component: {fileID: 16215448890411135}
+  m_Layer: 7
   m_Name: Lighting Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,6 +236,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.14
+--- !u!114 &16215448890411135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3417326492412157496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ff3e6ed97e0ad14fa94760ac33585a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3807999246104053731
 GameObject:
   m_ObjectHideFlags: 0

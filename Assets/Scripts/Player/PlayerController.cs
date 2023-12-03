@@ -99,6 +99,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void PlayerDiscovered()
+    {
+        StopPlayerDash();
+        Debug.Log("Oho");
+    }
+
     #endregion
 
     #region Look at mouse

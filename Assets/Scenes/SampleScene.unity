@@ -1211,6 +1211,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71f240887280d8646883ff1452cb5581, type: 3}
+--- !u!1 &1764180324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1764180326}
+  - component: {fileID: 1764180325}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1764180325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764180324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c3df3b3b9c84b740bcabf5aa98f2635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerDiscovered:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &1764180326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764180324}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.954761, y: -1.3626219, z: -0.0040448643}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2125160587
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,10 +1358,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewRadius: 3
   viewAngle: 60
-  rayStepCount: 10
+  angleStep: 3
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  createWithCircleAround: 1
+  circleRadius: 1
 --- !u!210 &2125160592
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -1371,12 +1420,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.3589146, y: 0.42770922}
-      - {x: -0.24388996, y: 0.46866903}
-      - {x: -0.50682896, y: 0.09125822}
-      - {x: -0.4051674, y: -0.42305908}
-      - {x: 0.2655027, y: -0.4867341}
-      - {x: 0.5678015, y: -0.09165895}
+    - - {x: 0.4417017, y: 0.51877505}
+      - {x: -0.27700424, y: 0.58457077}
+      - {x: -0.56477964, y: 0.10781554}
+      - {x: -0.43828174, y: -0.5389608}
+      - {x: 0.3234534, y: -0.5777997}
+      - {x: 0.60091645, y: -0.09165895}
   m_UseDelaunayMesh: 0
 --- !u!1001 &7394518521432990304
 PrefabInstance:

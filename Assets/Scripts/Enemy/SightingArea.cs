@@ -26,7 +26,13 @@ public class SightingArea : MonoBehaviour
         
         if (rayHit.collider != null && rayHit.collider.GetComponent<LightingArea>() != null)
         {
-            fov.ViewRadius = detectCandleDistance;
+            float currentRadius = detectCandleDistance;
+            if (GetFarthestPoint(rayHit.collider, rayHit.point, out Vector3 farthestPoint))
+            {
+                currentRadius = Vector3.Distance(transform.position, farthestPoint);
+            }
+
+            fov.ViewRadius = currentRadius;
         }
         else
         {
@@ -40,6 +46,28 @@ public class SightingArea : MonoBehaviour
         if (playerController != null)
         {
             playerController.PlayerDiscovered();
+        }
+    }
+
+    private bool GetFarthestPoint(Collider2D collider, Vector3 hitPoint, out Vector3 farthestPoint)
+    {
+        farthestPoint = Vector3.zero;
+        Vector3 dir = hitPoint - transform.position;
+        dir.Normalize();
+        var circleCollider = collider.GetComponent<CircleCollider2D>();
+        if (circleCollider == null)
+            return false;
+
+        Vector3 outsidePointOnRay = hitPoint + dir * circleCollider.radius * 2;
+        Ray oppositeRay = new Ray(outsidePointOnRay, -dir);
+        if (collider.bounds.IntersectRay(oppositeRay, out float dis))
+        {
+            farthestPoint = outsidePointOnRay - dir * dis;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

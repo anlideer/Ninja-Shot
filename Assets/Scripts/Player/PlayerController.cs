@@ -105,6 +105,11 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Oho");
     }
 
+    public void PlayerReachToExit()
+    {
+        Debug.Log("Yes!");
+    }
+
     #endregion
 
     #region Look at mouse

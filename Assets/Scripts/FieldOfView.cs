@@ -39,6 +39,11 @@ public class FieldOfView : MonoBehaviour
     [Tooltip("Automatically update fov. Turn this off to control the update yourself by calling UpdateFOV.")]
     private bool autoUpdateFov = true;
 
+    [Header("Editor settings")]
+    [SerializeField]
+    [Tooltip("Enable this to show brief lines representing the fov area in editor scene.")]
+    private bool editorPreview = true;
+
     private Mesh mesh;
     private PolygonCollider2D fovCollider;
 
@@ -76,6 +81,19 @@ public class FieldOfView : MonoBehaviour
         if (autoUpdateFov)
         {
             UpdateFOV();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (editorPreview)
+        {
+            var endPoint1 = viewRadius * GetVectorForAngle(viewAngle / 2);
+            var endPoint2 = viewRadius * GetVectorForAngle(-viewAngle / 2);
+            var midPoint = viewRadius * GetVectorForAngle(0);
+            Gizmos.DrawLine(transform.position, transform.TransformPoint(endPoint1));
+            Gizmos.DrawLine(transform.position, transform.TransformPoint(endPoint2));
+            Gizmos.DrawLine(transform.position, transform.TransformPoint(midPoint));
         }
     }
 

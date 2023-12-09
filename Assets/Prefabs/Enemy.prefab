@@ -111,6 +111,7 @@ MonoBehaviour:
   createWithCircleAround: 0
   circleRadius: 1
   autoUpdateFov: 0
+  editorPreview: 1
 --- !u!33 &6543497537714973191
 MeshFilter:
   m_ObjectHideFlags: 0

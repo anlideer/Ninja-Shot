@@ -9,12 +9,12 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float rotatingDuration = 1f;
     [SerializeField] private float stopTime = 0.5f;
 
-    private void Start()
+    protected virtual void Start()
     {
         StartCoroutine(RotateRoutine());
     }
 
-    private IEnumerator RotateRoutine()
+    protected IEnumerator RotateRoutine()
     {
         int ind = 0;
         while (ind < rotationStops.Length)
@@ -35,7 +35,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    private IEnumerator RotateBetweenTwoAnglesRoutine(Vector3 fromRot, Vector3 toRot)
+    protected IEnumerator RotateBetweenTwoAnglesRoutine(Vector3 fromRot, Vector3 toRot)
     {
         Quaternion fromQ = Quaternion.Euler(fromRot);
         Quaternion toQ = Quaternion.Euler(toRot);

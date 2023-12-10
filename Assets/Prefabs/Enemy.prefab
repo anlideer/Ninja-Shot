@@ -32,7 +32,7 @@ Transform:
   - {fileID: 5791777427359322623}
   - {fileID: 8049385441773987699}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4257118701394984671
 MonoBehaviour:
@@ -108,7 +108,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
-  createWithCircleAround: 0
+  createWithCircleAround: 1
   circleRadius: 1
   autoUpdateFov: 0
   editorPreview: 1

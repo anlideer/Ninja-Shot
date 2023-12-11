@@ -18,7 +18,6 @@ public class EnemyMovable : EnemyBase
     [SerializeField] bool drawDebugLines;
 
     private Pathfinder<Vector2> pathfinder; //the pathfinder object that stores the methods and patience
-    private Vector2 targetNode; //target in 2D space
     private List<Vector2> path;
     private List<Vector2> pathLeftToGo = new List<Vector2>();
 
@@ -41,6 +40,7 @@ public class EnemyMovable : EnemyBase
         {
             Vector3 dir = (Vector3)pathLeftToGo[0] - transform.position;
             transform.position += dir.normalized * speed;
+            transform.right = dir;  // just test, should have lerp
             if (((Vector2)transform.position - pathLeftToGo[0]).sqrMagnitude < speed * speed)
             {
                 transform.position = pathLeftToGo[0];
@@ -48,6 +48,7 @@ public class EnemyMovable : EnemyBase
             }
         }
 
+#if UNITY_EDITOR
         if (drawDebugLines)
         {
             for (int i = 0; i < pathLeftToGo.Count - 1; i++) //visualize your path in the sceneview
@@ -55,6 +56,7 @@ public class EnemyMovable : EnemyBase
                 Debug.DrawLine(pathLeftToGo[i], pathLeftToGo[i + 1]);
             }
         }
+#endif
     }
 
     #region pathfinding related (copied from the plugin example)

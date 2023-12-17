@@ -22,29 +22,29 @@ public class EnemyBase : MonoBehaviour
             if (ind + 1 < rotationStops.Length)
             {
                 yield return StartCoroutine(
-                    RotateBetweenTwoAnglesRoutine(rotationStops[ind], rotationStops[ind + 1]));
+                    RotateBetweenTwoAnglesRoutine(rotationStops[ind], rotationStops[ind + 1], rotatingDuration));
                 ind++;
             }
             else
             {
                 yield return StartCoroutine(
-                    RotateBetweenTwoAnglesRoutine(rotationStops[ind], rotationStops[0]));
+                    RotateBetweenTwoAnglesRoutine(rotationStops[ind], rotationStops[0], rotatingDuration));
                 ind = 0;
             }
             yield return new WaitForSeconds(stopTime);
         }
     }
 
-    protected IEnumerator RotateBetweenTwoAnglesRoutine(Vector3 fromRot, Vector3 toRot)
+    protected IEnumerator RotateBetweenTwoAnglesRoutine(Vector3 fromRot, Vector3 toRot, float duration)
     {
         Quaternion fromQ = Quaternion.Euler(fromRot);
         Quaternion toQ = Quaternion.Euler(toRot);
 
         float elapsedTime = 0f;
-        while (elapsedTime < rotatingDuration)
+        while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(fromQ, toQ, elapsedTime / rotatingDuration);
+            transform.rotation = Quaternion.Lerp(fromQ, toQ, elapsedTime / duration);
             yield return null;
         }
         transform.rotation = toQ;

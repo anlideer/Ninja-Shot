@@ -10,6 +10,8 @@ public class SightingArea : MonoBehaviour
     private FieldOfView fov;
     private float originalRadius;
 
+    public float DetectCandleDistance { get { return detectCandleDistance; } }
+
     private void Start()
     {
         fov = GetComponent<FieldOfView>();
@@ -32,7 +34,7 @@ public class SightingArea : MonoBehaviour
                 currentRadius = Vector3.Distance(transform.position, farthestPoint);
             }
 
-            fov.ViewRadius = currentRadius;
+            fov.ViewRadius = Mathf.Max(currentRadius, originalRadius);
         }
         else
         {

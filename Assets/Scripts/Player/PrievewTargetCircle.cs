@@ -31,7 +31,7 @@ public class PrievewTargetCircle : MonoBehaviour
         {
             if (circleRenderer == null)
             {
-                circleRenderer = Instantiate(simpleCircle, targetPosition, Quaternion.identity).
+                circleRenderer = Instantiate(simpleCircle, targetPosition, Quaternion.identity, transform).
                     GetComponent<LineRenderer>();
                 currentRadius = maxRadius;
             }

@@ -44,6 +44,11 @@ public class FieldOfView : MonoBehaviour
     [Tooltip("Enable this to show brief lines representing the fov area in editor scene.")]
     private bool editorPreview = true;
 
+    [Header("Other settings")]
+    [SerializeField]
+    [Tooltip("Enable this to update the polygon collider attached based on the fov mesh.")]
+    private bool shouldUpdateCollider = true;
+
     private Mesh mesh;
     private PolygonCollider2D fovCollider;
 
@@ -53,7 +58,6 @@ public class FieldOfView : MonoBehaviour
         set 
         {
             viewRadius = value;
-            UpdateFOV();
         }
     }
 
@@ -228,7 +232,7 @@ public class FieldOfView : MonoBehaviour
 
     private void UpdateCollider(Vector3[] localVertices)
     {
-        if (fovCollider == null)
+        if (!shouldUpdateCollider || fovCollider == null)
             return;
 
         Vector2[] colliderVertices = new Vector2[localVertices.Length];

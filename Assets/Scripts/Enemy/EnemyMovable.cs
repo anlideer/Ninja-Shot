@@ -171,6 +171,7 @@ public class EnemyMovable : EnemyBase
         if (pathfinder.GenerateAstarPath(closestNode, GetClosestNode(target), out path)) //Generate path between two points on grid that are close to the transform position and the assigned target.
         {
             isMoving = true;
+            isRotationWhileMovingRoutineRunning = false;
             StopAllCoroutines();
             if (searchShortcut && path.Count > 0)
                 pathLeftToGo = ShortenPath(path);

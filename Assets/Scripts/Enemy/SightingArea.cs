@@ -46,11 +46,11 @@ public class SightingArea : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-/*        var playerController = collision.gameObject.GetComponent<PlayerController>();
+        var playerController = collision.gameObject.GetComponent<PlayerController>();
         if (playerController != null)
         {
             playerController.PlayerDiscovered();
-        }*/
+        }
     }
 
     private bool GetFarthestPoint(Collider2D collider, Vector3 hitPoint, out Vector3 farthestPoint)

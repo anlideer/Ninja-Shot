@@ -103,11 +103,13 @@ public class PlayerController : MonoBehaviour
     {
         StopPlayerDash();
         Debug.Log("Oho");
+        GameManager.Instance.OnPlayerFail();
     }
 
     public void PlayerReachToExit()
     {
         Debug.Log("Yes!");
+        GameManager.Instance.OnPlayerSuccess();
     }
 
     #endregion

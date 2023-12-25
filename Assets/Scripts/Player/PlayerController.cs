@@ -60,13 +60,11 @@ public class PlayerController : MonoBehaviour
         IsDashing = false;
     }
 
-    private void Update()
-    {
-        UpdateTargetPosition();
-    }
-
     private void FixedUpdate()
     {
+        if (GameManager.Instance.GameEnded)
+            return;
+
         UpdateTargetPosition();
         if (!IsDashing)
         {
@@ -101,14 +99,18 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerDiscovered()
     {
+        if (GameManager.Instance.GameEnded)
+            return;
+
         StopPlayerDash();
-        Debug.Log("Oho");
         GameManager.Instance.OnPlayerFail();
     }
 
     public void PlayerReachToExit()
     {
-        Debug.Log("Yes!");
+        if (GameManager.Instance.GameEnded)
+            return;
+
         GameManager.Instance.OnPlayerSuccess();
     }
 
@@ -150,7 +152,7 @@ public class PlayerController : MonoBehaviour
     #region Dash
     private void Dash()
     {
-        if (!CanDash)
+        if (!CanDash || GameManager.Instance.GamePaused || GameManager.Instance.GameEnded)
             return;
 
         CanDash = false;

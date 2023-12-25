@@ -1,40 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager> 
 {
-    private GameObject levelPanel;
-    private GameObject failurePanel;
-    private GameObject successPanel;
+    public UnityEvent<float, float> LevelSuccess;   // passTime, recordTime
+    public UnityEvent LevelFail;
 
-    private void Start()
-    {
-        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-    }
+    public bool GamePaused { get; private set; }
+    public bool GameEnded { get; set; }
 
     public void OnPlayerSuccess()
     {
+        float levelPassTime = Time.timeSinceLevelLoad;
+        string sceneName = SceneManager.GetActiveScene().name;
+        float recordTime = PlayerPrefs.GetFloat(sceneName, -1f); 
+        if (recordTime == -1f || levelPassTime < recordTime)
+        {
+            recordTime = levelPassTime;
+            PlayerPrefs.SetFloat(SceneManager.GetActiveScene().name, levelPassTime);
+        }
 
+        LevelSuccess?.Invoke(levelPassTime, recordTime);
+        GameEnded = true;
     }
 
     public void OnPlayerFail()
     {
-
+        LevelFail?.Invoke();
+        GameEnded = true;
     }
 
-    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    public void PauseGame()
     {
-        if (arg0.name.StartsWith("Level"))
-        {
-            levelPanel = GameObject.Find("LevelPanel");
-            failurePanel = GameObject.Find("FailurePanel");
-            successPanel = GameObject.Find("SuccessPanel");
-        }
-        else
-        {
-            levelPanel = failurePanel = successPanel = null;
-        }
+        GamePaused = true;
+        Time.timeScale = 0f;
+    }
+
+    public void UnpauseGame()
+    {
+        GamePaused = false;
+        Time.timeScale = 1f;
     }
 }

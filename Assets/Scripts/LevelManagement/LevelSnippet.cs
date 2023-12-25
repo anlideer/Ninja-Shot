@@ -32,6 +32,8 @@ public class LevelSnippet : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        GameManager.Instance.UnpauseGame();
+        GameManager.Instance.GameEnded = false;
         SceneManager.LoadScene(levelToLoad);
     }
 }
